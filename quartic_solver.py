@@ -4,21 +4,22 @@ from quadratic_solver import solve_quadratic as solve_quadratic
 
 
 def cleaning_function(vals, tol=1e-12, ndigits=12):
-    return tuple(
-        round(z.real, ndigits) if abs(z.imag) < tol
-        else complex(round(z.real, ndigits), round(z.imag, ndigits))
-        for z in map(complex, vals)
-    )
+    out = []
+    for v in vals:
+        z = complex(v)
+        re = round(z.real, ndigits)
+        im = 0.0 if abs(z.imag) < tol else round(z.imag, ndigits)
+        out.append(complex(re, im))
+    return tuple(out)
 
 def solve_quartic(a,b,c,d,e,tol = 1e-12):
     if abs(a) <= tol:
         if abs(b) > tol:                       # cubic: bx^3 + cx^2 + dx + e = 0
             return solve_cubic(b, c, d, e)
         if abs(c) > tol:                       # quadratic: cx^2 + dx + e = 0
-            r1, r2 = solve_quadratic(c, d, e)
-            return (r1, r2)
+            return solve_quadratic(c, d, e)
         if abs(d) > tol:                       # linear: dx + e = 0
-            return (-e/d,)
+            return (cleaning_function(-e/d,))
         return tuple()                          # constant: no roots (or infinite if e≈0)
 
     #Biquadratic case: ax^4+cx^2+e=0
@@ -31,7 +32,7 @@ def solve_quartic(a,b,c,d,e,tol = 1e-12):
 
 
     #quartic equation ax^4+bx^3+cx^2+dx+e
-    #mono quartic equation x^4+a_3x^3+a_2x^2+a_1x+a_0
+    #mono quartic equation x^4+a_3x^3+a_2x^2+a_1x+a_0git push
     a0 = e/a
     a1 = d/a
     a2 = c/a
