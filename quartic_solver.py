@@ -19,6 +19,14 @@ def solve_quartic(a,b,c,d,e):
     if a==0 and b==0 and c==0:
         return False  # Degenerates to linear or constant equation
 
+    #Biquadratic case: ax^4+cx^2+e=0
+    if abs(b) <= 1e-12 and abs(d) <= 1e-12:
+        y1, y2 = solve_quadratic(a, c, e)          # solve a y^2 + c y + e = 0
+        root1, root2 = solve_quadratic(1.0, 0.0, -y1)    # x^2 = y1
+        root3, root4 = solve_quadratic(1.0, 0.0, -y2)    # x^2 = y2
+
+        return cleaning_function([root1, root2, root3, root4])  
+
 
     tol = 1e-12
 
@@ -71,6 +79,7 @@ def main():
         (1, 0, 0, 0, -1),  # roots of x^4 - 1 = 0 (2 real and 2 complex roots)
         (1, 0, 1, 0, -1),  # roots of x^4 + x^2 - 1 = 0 (2 real and 2 complex roots)
         (0, 1, -3, 2, 0),  # a=0 => cubic: x^3 - 3x^2 + 2x = 0  (roots 0,1,2)
+        (1, 0, 2, 0, 1),   # x^4 + 2x^2 + 1 = 0  (roots -i,-i,i,i)
     ]
     for a, b, c, d, e in tests:
         roots = solve_quartic(a, b, c, d, e)

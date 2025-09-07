@@ -38,8 +38,8 @@ def solve_quadratic(a,b,c):
 def main():
     tests = [
         (1, 0, 1),  # roots of x^2 + 1 = 0 are [i, -i]
-        (1,4,-8),    #  roots of x^2 +4x+8=0 are [1.46, ]
-        (1, -8, 15),   # roots [-3.0, -5.0]
+        (1,4,-8),    #  roots of x^2 +4x+8=0 are [1.46, -5.46]
+        (1, -8, 15),   # roots [3.0, 5.0]
     ]
     for a, b, c in tests:
         roots = solve_quadratic(a, b, c)
