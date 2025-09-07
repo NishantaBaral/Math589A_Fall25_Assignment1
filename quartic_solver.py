@@ -10,14 +10,16 @@ def cleaning_function(vals, tol=1e-12, ndigits=12):
         for z in map(complex, vals)
     )
 
-def solve_quartic(a,b,c,d,e):
-    if a == 0:
-        return solve_cubic(b,c,d,e)  # Degenerates to cubic
-    
-    if a==0 and b ==0:
-        return solve_quadratic(c,d,e)  # Degenerates to quadratic
-    if a==0 and b==0 and c==0:
-        return False  # Degenerates to linear or constant equation
+def solve_quartic(a,b,c,d,e,tol = 1e-12):
+    if abs(a) <= tol:
+        if abs(b) > tol:                       # cubic: bx^3 + cx^2 + dx + e = 0
+            return solve_cubic(b, c, d, e)
+        if abs(c) > tol:                       # quadratic: cx^2 + dx + e = 0
+            r1, r2 = solve_quadratic(c, d, e)
+            return (r1, r2)
+        if abs(d) > tol:                       # linear: dx + e = 0
+            return (-e/d,)
+        return tuple()                          # constant: no roots (or infinite if e≈0)
 
     #Biquadratic case: ax^4+cx^2+e=0
     if abs(b) <= 1e-12 and abs(d) <= 1e-12:
@@ -27,8 +29,6 @@ def solve_quartic(a,b,c,d,e):
 
         return cleaning_function([root1, root2, root3, root4])  
 
-
-    tol = 1e-12
 
     #quartic equation ax^4+bx^3+cx^2+dx+e
     #mono quartic equation x^4+a_3x^3+a_2x^2+a_1x+a_0
