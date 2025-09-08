@@ -24,6 +24,8 @@ def solve_cubic(a,b,c,d,tol=1e-12):
   #coefficient of the depressed cubic x^3+px+q
   p = (3*a*c-b*b)/(3*a*a)
   q = (2*b**3 - 9*a*b*c + 27*a*a*d)/(27*a**3)
+  if abs(p.imag) <= tol:p = p.real
+  if abs(q.imag) <= tol: q = q.real
 
   #handling edge case where p=0. depressed cubic is x^3+q=0
   if abs(p) == 0:
@@ -57,7 +59,7 @@ def solve_cubic(a,b,c,d,tol=1e-12):
      return cleaning_function([root1,root2,root3])
      
 
-  if p < 0:
+  if p<0:
     #changing depressed cubic into 4cos^3(theta)-3cos(theta) = z; where x is scaled by kcos(theta)
     z = complex(((3*q)/p)*(half_power(-3/(4*p))))
     k = complex(half_power((-4*p)/3))
