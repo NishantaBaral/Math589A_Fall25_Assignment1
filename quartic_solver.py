@@ -2,15 +2,23 @@ import math, cmath
 from cubic_solver import solve_cubic as solve_cubic
 from quadratic_solver import solve_quadratic as solve_quadratic
 
-
-def cleaning_function(vals, tol=1e-12, ndigits=12):
+def cleaning_function(vals, tol=1e-12, nd=12):
+    xs = vals if isinstance(vals, (list, tuple)) else [vals]
     out = []
-    for v in vals:
+    for v in xs:
         z = complex(v)
-        re = round(z.real, ndigits)
-        im = 0.0 if abs(z.imag) < tol else round(z.imag, ndigits)
+        re = round(z.real, nd)
+        im = 0.0 if abs(z.imag) < tol else round(z.imag, nd)
         out.append(re if im == 0.0 else complex(re, im))
-    return tuple(out)
+    # all-real -> ascending floats; else: (+imag first) then by (real, |imag|)
+    if all(isinstance(z, (int, float)) for z in out):
+        return tuple(sorted(map(float, out)))
+    return tuple(sorted(out, key=lambda w: (
+        0 if complex(w).imag > 0 else (1 if complex(w).imag == 0 else 2),
+        round(complex(w).real, nd),
+        round(abs(complex(w).imag), nd)
+    )))
+
 
 def solve_quartic(a,b,c,d,e,tol = 1e-12):
     if abs(a) <= tol:
