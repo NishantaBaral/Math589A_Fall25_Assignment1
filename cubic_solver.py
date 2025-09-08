@@ -1,4 +1,5 @@
 import math, cmath
+from quadratic_solver import solve_quadratic as solve_quadratic
 
 def cleaning_function(vals, tol=1e-12, ndigits=12):
   out = []
@@ -6,13 +7,13 @@ def cleaning_function(vals, tol=1e-12, ndigits=12):
         z = complex(v)
         re = round(z.real, ndigits)
         im = 0.0 if abs(z.imag) < tol else round(z.imag, ndigits)
-        out.append(complex(re, im))
+        out.append(re if im == 0.0 else complex(re, im))
   return tuple(out)
 
 def solve_cubic(a,b,c,d):
 
   if a == 0:
-    return False
+    return solve_quadratic(b,c,d)
 
 
   #coefficient of the depressed cubic x^3+px+q
