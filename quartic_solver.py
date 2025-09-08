@@ -21,16 +21,17 @@ def solve_quartic(a,b,c,d,e,tol = 1e-12):
         if abs(c) > tol:                       # quadratic: cx^2 + dx + e = 0
             return cleaning_function(solve_quadratic(c, d, e))
         if abs(d) > tol:                       # linear: dx + e = 0
-            return (cleaning_function(-e/d))
+            return (cleaning_function([-e/d]))
         return tuple()                          # constant: no roots
 
     #Biquadratic case: ax^4+cx^2+e=0
     if abs(b) <= tol and abs(d) <= tol:
-        y1, y2 = solve_quadratic(a, c, e)          # solve a y^2 + c y + e = 0
-        roots12 = solve_quadratic(1.0, 0.0, -y1)    # x^2 = y1
-        roots34 = solve_quadratic(1.0, 0.0, -y2)    # x^2 = y2
+        y_roots = solve_quadratic(a, c, e)   # (y1, y2) as complex
+        x_roots = []
+        for y in y_roots:
+            x_roots.extend(solve_quadratic(1.0, 0.0, -y))  
+        return cleaning_function(x_roots)  
 
-        return cleaning_function([*roots12,*roots34])  
 
 
     #quartic equation ax^4+bx^3+cx^2+dx+e
@@ -49,13 +50,13 @@ def solve_quartic(a,b,c,d,e,tol = 1e-12):
 
     roots_of_resolvent_cubic = solve_cubic(b3,b2,b1,b0)
 
-    real_root = [r for r in roots_of_resolvent_cubic if abs(r.imag) < tol]
+    real_root = [r for r in roots_of_resolvent_cubic if complex(r).imag < tol]
     #I've picked the first real root but we can pick any real root. And we're guaranteed at least one
     #real root as a solution to the cubic. Hence, no error handling necessary.
     beta = real_root[0]
 
-    sigma1, sigma2 = solve_quadratic(1.0, a3, (a2 - beta))   # s^2 + a3s + (a2-beta)=0
-    eta1,   eta2   = solve_quadratic(1.0, -beta, a0)         # p^2 - beta*p + a0=0
+    sigma = solve_quadratic(1.0, a3, (a2 - beta))  # s^2 + a3s + (a2-beta)=0
+    eta = solve_quadratic(1.0, -beta, a0)     # p^2 - beta*p + a0=0
 
     # Cleaning floating point errors
     sigma1, sigma2 = cleaning_function([sigma1,sigma2])
@@ -75,7 +76,7 @@ def solve_quartic(a,b,c,d,e,tol = 1e-12):
     roots12 = solve_quadratic(1.0, -sigma1, eta1)
     roots34 = solve_quadratic(1.0, -sigma2, eta2)
 
-    all_roots = [*roots12, *roots34]                # flatten to list of 4
+    all_roots = [*(roots12), *(roots34)]                
     return cleaning_function(all_roots)
 
 def main():

@@ -18,7 +18,7 @@ def half_power(z):
 def solve_cubic(a,b,c,d,tol=1e-12):
 
   if a == 0:
-    return solve_quadratic(b,c,d)
+    return cleaning_function(solve_quadratic(b,c,d))
 
 
   #coefficient of the depressed cubic x^3+px+q
