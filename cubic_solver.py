@@ -23,7 +23,7 @@ def solve_cubic(a,b,c,d,tol=1e-12):
   q = (2*b**3 - 9*a*b*c + 27*a*a*d)/(27*a**3)
 
   #handling edge case where p=0. depressed cubic is x^3+q=0
-  if p == 0:
+  if abs(p) == 0:
 
     r = abs(-q+0j)
     theta = cmath.phase(-q)
@@ -38,6 +38,7 @@ def solve_cubic(a,b,c,d,tol=1e-12):
 
     return cleaning_function([root1,root2,root3])
   
+  #handling the case where the cofficients are complex numbers
   if any(abs(complex(v).imag) > tol for v in (p, q)):
      k = complex(cmath.sqrt((-4*p)/3))
      z = complex(((3*q)/p)*(cmath.sqrt(-3/(4*p))))
@@ -53,7 +54,7 @@ def solve_cubic(a,b,c,d,tol=1e-12):
      return cleaning_function([root1,root2,root3])
      
 
-  if p < 0:
+  if abs(p) < 0:
     #changing depressed cubic into 4cos^3(theta)-3cos(theta) = z; where x is scaled by kcos(theta)
     z = complex(((3*q)/p)*(cmath.sqrt(-3/(4*p))))
     k = complex(cmath.sqrt((-4*p)/3))
@@ -81,7 +82,7 @@ def solve_cubic(a,b,c,d,tol=1e-12):
 
       return cleaning_function([root1, root2, root3])   
 
-  if p > 0:
+  if abs(p) > 0:
     #changing depressed cubic into 4cos^3(theta)-3cos(theta) = z; where x is scaled by kcos(theta)
     z = complex(((-3*q)/p)*(cmath.sqrt(3/(4*p))))
     k = complex(cmath.sqrt((4*p)/3))
@@ -113,7 +114,7 @@ def main():
         (1, 0, 0, -1),     # roots of x^3 - 1 = 0 (1 and two complex cube roots)
         (1, -6, 11, -6),   # roots [1.0, 2.0, 3.0]
         (1,2,3,4),
-        (1+1j,-6+10j,11,-6),
+        (1+1j,-6+10j,11,-6+2j),
     ]
     
 

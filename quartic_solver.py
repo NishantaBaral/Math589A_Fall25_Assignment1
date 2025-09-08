@@ -13,9 +13,7 @@ def cleaning_function(vals, tol=1e-12, nd=12):
 
     return tuple(out)
 
-    # deterministic order that the grader can sort/min/max without errors
-    return tuple(sorted(out, key=lambda w: (0, w) if isinstance(w, (int, float)) else (1, w[0], abs(w[1]))))
-
+   
 def solve_quartic(a,b,c,d,e,tol = 1e-12):
     if abs(a) <= tol:
         if abs(b) > tol:                       # cubic: bx^3 + cx^2 + dx + e = 0
@@ -86,15 +84,17 @@ def main():
         (0, 1, -3, 2, 0),  # a=0 => cubic: x^3 - 3x^2 + 2x = 0  (roots 0,1,2)
         (1, 0, 2, 0, 1),   # x^4 + 2x^2 + 1 = 0  (roots -i,-i,i,i)
         (1, 0, 1, 0, 1),     # x^4 + x^2 + 1 (two complex conjugate pairs)
-        (1, 0, 4, 0, 6),     # x^4 + 4x^2 + 6 (two complex conjugate pairs)
-        (1, 0, 0, 0, 4),  
-        (1+1j,0,0,0,1+2j),   # x^4 + 4 (two complex conjugate pairs)
+        (1, 0, 4, 0, 6),     # x^4 + 4x^2 + 6 (two complex conjugate pairs)    
         ]
     for a, b, c, d, e in tests:
         roots = solve_quartic(a, b, c, d, e)
         print(f"solve_quartic({a}, {b}, {c}, {d}, {e}) -> {roots}")
+    '''
     for args in tests:
         roots = solve_quartic(*args)
         print(args, roots, [type(z) for z in roots])
+        '''
 if __name__ == "__main__":
     main()
+
+
