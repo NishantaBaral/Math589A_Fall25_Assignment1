@@ -54,7 +54,7 @@ def solve_cubic(a,b,c,d,tol=1e-12):
      return cleaning_function([root1,root2,root3])
      
 
-  if abs(p) < 0:
+  if p < 0:
     #changing depressed cubic into 4cos^3(theta)-3cos(theta) = z; where x is scaled by kcos(theta)
     z = complex(((3*q)/p)*(cmath.sqrt(-3/(4*p))))
     k = complex(cmath.sqrt((-4*p)/3))
@@ -82,7 +82,7 @@ def solve_cubic(a,b,c,d,tol=1e-12):
 
       return cleaning_function([root1, root2, root3])   
 
-  if abs(p) > 0:
+  if p > 0:
     #changing depressed cubic into 4cos^3(theta)-3cos(theta) = z; where x is scaled by kcos(theta)
     z = complex(((-3*q)/p)*(cmath.sqrt(3/(4*p))))
     k = complex(cmath.sqrt((4*p)/3))
