@@ -1,7 +1,7 @@
 import math, cmath
 from quadratic_solver import solve_quadratic as solve_quadratic
 
-def cleaning_function(vals, tol=1e-12, nd=12):
+def cleaning_function(vals, tol=1e-10, nd=12):
     xs = vals if isinstance(vals, (list, tuple)) else [vals]
     out = []
     for v in xs:

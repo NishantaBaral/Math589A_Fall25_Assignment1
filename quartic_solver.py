@@ -2,7 +2,7 @@ import math, cmath
 from cubic_solver import solve_cubic as solve_cubic
 from quadratic_solver import solve_quadratic as solve_quadratic
 
-def cleaning_function(vals, tol=1e-12, nd=12):
+def cleaning_function(vals, tol=1e-7, nd=12):
     xs = vals if isinstance(vals, (list, tuple)) else [vals]
     out = []
     for v in xs:
@@ -89,10 +89,11 @@ def main():
     for a, b, c, d, e in tests:
         roots = solve_quartic(a, b, c, d, e)
         print(f"solve_quartic({a}, {b}, {c}, {d}, {e}) -> {roots}")
-    
+    '''
     for args in tests:
         roots = solve_quartic(*args)
         print(args, roots, [type(z) for z in roots])
+        '''
         
 if __name__ == "__main__":
     main()
