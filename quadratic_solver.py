@@ -8,11 +8,7 @@ def cleaning_function(vals, tol=1e-12, nd=12):
         re = round(z.real, nd)
         im = 0.0 if abs(z.imag) < tol else round(z.imag, nd)
         out.append(re if im == 0.0 else complex(re, im))
-        
-        # deterministic order that the grader can sort/min/max without errors
-    return tuple(sorted(out, key=lambda w: (0, w) if isinstance(w, (int, float)) else (1, w[0], abs(w[1]))))
-    
-
+    return tuple(out)
 
 def solve_quadratic(a,b,c):
 
@@ -47,7 +43,8 @@ def main():
         (1, 0, 1),  # roots of x^2 + 1 = 0 are [i, -i]
         (1,4,-8),    #  roots of x^2 +4x+8=0 are [1.46, -5.46]
         (1, -8, 15),   # roots [3.0, 5.0]
-        (0,2,6)
+        (0,2,6),
+        (1+1j,0,1+2j)
     ]
     for a, b, c in tests:
         roots = solve_quadratic(a, b, c)

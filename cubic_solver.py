@@ -9,13 +9,10 @@ def cleaning_function(vals, tol=1e-12, nd=12):
         re = round(z.real, nd)
         im = 0.0 if abs(z.imag) < tol else round(z.imag, nd)
         out.append(re if im == 0.0 else complex(re, im))
+    return tuple(out)
 
-        # deterministic order that the grader can sort/min/max without errors
-    return tuple(sorted(out, key=lambda w: (0, w) if isinstance(w, (int, float)) else (1, w[0], abs(w[1]))))
-    
-
-
-def solve_cubic(a,b,c,d):
+        
+def solve_cubic(a,b,c,d,tol=1e-12):
 
   if a == 0:
     return solve_quadratic(b,c,d)
@@ -25,10 +22,10 @@ def solve_cubic(a,b,c,d):
   p = (3*a*c-b*b)/(3*a*a)
   q = (2*b**3 - 9*a*b*c + 27*a*a*d)/(27*a**3)
 
-  if p<0:
+  if abs(p)<0:
     #changing depressed cubic into 4cos^3(theta)-3cos(theta) = z; where x is scaled by kcos(theta)
-    z = complex(((3*q)/p)*(math.sqrt(-3/(4*p))))
-    k = complex(math.sqrt((-4*p)/3))
+    z = complex(((3*q)/p)*(cmath.sqrt(-3/(4*p))))
+    k = complex(cmath.sqrt((-4*p)/3))
 
 
     if abs(z) < 1:
@@ -53,10 +50,10 @@ def solve_cubic(a,b,c,d):
 
       return cleaning_function([root1, root2, root3])   
 
-  if p>0:
+  if abs(p)>tol:
     #changing depressed cubic into 4cos^3(theta)-3cos(theta) = z; where x is scaled by kcos(theta)
-    z = complex(((-3*q)/p)*(math.sqrt(3/(4*p))))
-    k = complex(math.sqrt((4*p)/3))
+    z = complex(((-3*q)/p)*(cmath.sqrt(3/(4*p))))
+    k = complex(cmath.sqrt((4*p)/3))
     if abs(z) < 1:
       alpha1 = 1/3*cmath.asin(z)
       alpha2 = 1/3*(cmath.asin(z) + 2*math.pi)
@@ -100,7 +97,10 @@ def main():
     tests = [
         (1, 0, 0, -1),     # roots of x^3 - 1 = 0 (1 and two complex cube roots)
         (1, -6, 11, -6),   # roots [1.0, 2.0, 3.0]
+        (1j,1j,1j,1j),
     ]
+    
+
     for a, b, c, d in tests:
         roots = solve_cubic(a, b, c, d)
         print(f"solve_cubic({a}, {b}, {c}, {d}) -> {roots}")

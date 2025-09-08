@@ -10,6 +10,9 @@ def cleaning_function(vals, tol=1e-12, nd=12):
         re = round(z.real, nd)
         im = 0.0 if abs(z.imag) < tol else round(z.imag, nd)
         out.append(re if im == 0.0 else complex(re, im))
+
+    return tuple(out)
+
     # deterministic order that the grader can sort/min/max without errors
     return tuple(sorted(out, key=lambda w: (0, w) if isinstance(w, (int, float)) else (1, w[0], abs(w[1]))))
 
@@ -84,7 +87,8 @@ def main():
         (1, 0, 2, 0, 1),   # x^4 + 2x^2 + 1 = 0  (roots -i,-i,i,i)
         (1, 0, 1, 0, 1),     # x^4 + x^2 + 1 (two complex conjugate pairs)
         (1, 0, 4, 0, 6),     # x^4 + 4x^2 + 6 (two complex conjugate pairs)
-        (1, 0, 0, 0, 4),     # x^4 + 4 (two complex conjugate pairs)
+        (1, 0, 0, 0, 4),  
+        (1+1j,0,0,0,1+2j),   # x^4 + 4 (two complex conjugate pairs)
         ]
     for a, b, c, d, e in tests:
         roots = solve_quartic(a, b, c, d, e)
