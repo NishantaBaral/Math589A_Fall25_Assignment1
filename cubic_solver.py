@@ -9,9 +9,12 @@ def cleaning_function(vals, tol=1e-12, nd=12):
         re = round(z.real, nd)
         im = 0.0 if abs(z.imag) < tol else round(z.imag, nd)
         out.append(complex(re, im))
-    return out
+    return tuple(out)
 
-        
+def half_power(z):
+   return cmath.exp(0.5 * cmath.log(z))
+
+
 def solve_cubic(a,b,c,d,tol=1e-12):
 
   if a == 0:
@@ -40,8 +43,8 @@ def solve_cubic(a,b,c,d,tol=1e-12):
   
   #handling the case where the cofficients are complex numbers
   if any(abs(complex(v).imag) > tol for v in (p, q)):
-     k = complex(cmath.sqrt((-4*p)/3))
-     z = complex(((3*q)/p)*(cmath.sqrt(-3/(4*p))))
+     k = complex(half_power((-4*p)/3))
+     z = complex(((3*q)/p)*(half_power(-3/(4*p))))
 
      alpha1 = 1/3*cmath.acos(z)
      alpha2 = 1/3*(cmath.acos(z) + 2*math.pi)
@@ -56,8 +59,8 @@ def solve_cubic(a,b,c,d,tol=1e-12):
 
   if p < 0:
     #changing depressed cubic into 4cos^3(theta)-3cos(theta) = z; where x is scaled by kcos(theta)
-    z = complex(((3*q)/p)*(cmath.sqrt(-3/(4*p))))
-    k = complex(cmath.sqrt((-4*p)/3))
+    z = complex(((3*q)/p)*(half_power(-3/(4*p))))
+    k = complex(half_power((-4*p)/3))
 
 
     if abs(z) < 1:
@@ -84,8 +87,8 @@ def solve_cubic(a,b,c,d,tol=1e-12):
 
   if p > 0:
     #changing depressed cubic into 4cos^3(theta)-3cos(theta) = z; where x is scaled by kcos(theta)
-    z = complex(((-3*q)/p)*(cmath.sqrt(3/(4*p))))
-    k = complex(cmath.sqrt((4*p)/3))
+    z = complex(((-3*q)/p)*(half_power(3/(4*p))))
+    k = complex(half_power((4*p)/3))
     if abs(z) < 1:
       alpha1 = 1/3*cmath.asin(z)
       alpha2 = 1/3*(cmath.asin(z) + 2*math.pi)
