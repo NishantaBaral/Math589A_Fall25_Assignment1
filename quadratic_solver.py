@@ -12,7 +12,7 @@ def cleaning_function(vals, tol=1e-12, ndigits=12):
 def solve_quadratic(a,b,c):
 
   if a == 0:
-    return False
+    return cleaning_function([-c/b])
 
   discriminant = b**2-4*a*c
   d = (discriminant - 2*a**2)/(2*a**2)
@@ -25,7 +25,7 @@ def solve_quadratic(a,b,c):
     root1 = cmath.cos(alpha1) - b/(2*a)
     root2 = cmath.cos(alpha2) - b/(2*a)
 
-    return root1,root2
+    return cleaning_function([root1,root2])
 
   else:
       alpha1 = 0.5*cmath.acosh(d+0j)
@@ -42,6 +42,7 @@ def main():
         (1, 0, 1),  # roots of x^2 + 1 = 0 are [i, -i]
         (1,4,-8),    #  roots of x^2 +4x+8=0 are [1.46, -5.46]
         (1, -8, 15),   # roots [3.0, 5.0]
+        (0,2,6)
     ]
     for a, b, c in tests:
         roots = solve_quadratic(a, b, c)
