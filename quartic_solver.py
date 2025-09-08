@@ -2,14 +2,14 @@ import math, cmath
 from cubic_solver import solve_cubic as solve_cubic
 from quadratic_solver import solve_quadratic as solve_quadratic
 
-def cleaning_function(vals, tol=1e-7, nd=12):
+def cleaning_function(vals, tol=1e-12, nd=12):
     xs = vals if isinstance(vals, (list, tuple)) else [vals]
     out = []
     for v in xs:
         z = complex(v)
         re = round(z.real, nd)
         im = 0.0 if abs(z.imag) < tol else round(z.imag, nd)
-        out.append((complex(re) if im == 0.0 else complex(re, im)))
+        out.append(complex(re, im))
 
     return out
 
