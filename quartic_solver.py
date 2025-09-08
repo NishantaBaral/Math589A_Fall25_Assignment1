@@ -21,16 +21,16 @@ def solve_quartic(a,b,c,d,e,tol = 1e-12):
         if abs(c) > tol:                       # quadratic: cx^2 + dx + e = 0
             return cleaning_function(solve_quadratic(c, d, e))
         if abs(d) > tol:                       # linear: dx + e = 0
-            return (cleaning_function(-e/d,))
+            return (cleaning_function(-e/d))
         return tuple()                          # constant: no roots
 
     #Biquadratic case: ax^4+cx^2+e=0
     if abs(b) <= tol and abs(d) <= tol:
         y1, y2 = solve_quadratic(a, c, e)          # solve a y^2 + c y + e = 0
-        root1, root2 = solve_quadratic(1.0, 0.0, -y1)    # x^2 = y1
-        root3, root4 = solve_quadratic(1.0, 0.0, -y2)    # x^2 = y2
+        roots12 = solve_quadratic(1.0, 0.0, -y1)    # x^2 = y1
+        roots34 = solve_quadratic(1.0, 0.0, -y2)    # x^2 = y2
 
-        return cleaning_function([root1, root2, root3, root4])  
+        return cleaning_function([*roots12,*roots34])  
 
 
     #quartic equation ax^4+bx^3+cx^2+dx+e
@@ -72,10 +72,11 @@ def solve_quartic(a,b,c,d,e,tol = 1e-12):
         eta1, eta2 = eta2, eta1
 
     # Final two quadratics
-    root1, root2 = solve_quadratic(1.0, -sigma1, eta1)
-    root3, root4 = solve_quadratic(1.0, -sigma2, eta2)
+    roots12 = solve_quadratic(1.0, -sigma1, eta1)
+    roots34 = solve_quadratic(1.0, -sigma2, eta2)
 
-    return cleaning_function([root1, root2, root3, root4])
+    all_roots = [*roots12, *roots34]                # flatten to list of 4
+    return cleaning_function(all_roots)
 
 def main():
     tests = [
