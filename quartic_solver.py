@@ -55,8 +55,8 @@ def solve_quartic(a,b,c,d,e,tol = 1e-12):
     #real root as a solution to the cubic. Hence, no error handling necessary.
     beta = real_root[0]
 
-    sigma = solve_quadratic(1.0, a3, (a2 - beta))  # s^2 + a3s + (a2-beta)=0
-    eta = solve_quadratic(1.0, -beta, a0)     # p^2 - beta*p + a0=0
+    sigma1, sigma2 = solve_quadratic(1.0, a3, (a2 - beta))   # s^2 + a3s + (a2-beta)=0
+    eta1,   eta2   = solve_quadratic(1.0, -beta, a0)         # p^2 - beta*p + a0=0
 
     # Cleaning floating point errors
     sigma1, sigma2 = cleaning_function([sigma1,sigma2])
@@ -76,7 +76,7 @@ def solve_quartic(a,b,c,d,e,tol = 1e-12):
     roots12 = solve_quadratic(1.0, -sigma1, eta1)
     roots34 = solve_quadratic(1.0, -sigma2, eta2)
 
-    all_roots = [*(roots12), *(roots34)]                
+    all_roots = [*roots12, *roots34]                # flatten to list of 4
     return cleaning_function(all_roots)
 
 def main():
