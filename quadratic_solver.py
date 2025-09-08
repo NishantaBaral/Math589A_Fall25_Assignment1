@@ -7,7 +7,7 @@ def cleaning_function(vals, tol=1e-12, nd=12):
         z = complex(v)
         re = round(z.real, nd)
         im = 0.0 if abs(z.imag) < tol else round(z.imag, nd)
-        out.append(re if im == 0.0 else complex(re, im))
+        out.append(complex(re) if im == 0.0 else complex(re, im))
     return tuple(out)
 
 def solve_quadratic(a,b,c):

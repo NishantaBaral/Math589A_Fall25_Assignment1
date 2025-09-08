@@ -9,7 +9,7 @@ def cleaning_function(vals, tol=1e-12, nd=12):
         z = complex(v)
         re = round(z.real, nd)
         im = 0.0 if abs(z.imag) < tol else round(z.imag, nd)
-        out.append(re if im == 0.0 else complex(re, im))
+        out.append(complex(re) if im == 0.0 else complex(re, im))
 
     return tuple(out)
 
@@ -89,11 +89,11 @@ def main():
     for a, b, c, d, e in tests:
         roots = solve_quartic(a, b, c, d, e)
         print(f"solve_quartic({a}, {b}, {c}, {d}, {e}) -> {roots}")
-    '''
+    
     for args in tests:
         roots = solve_quartic(*args)
         print(args, roots, [type(z) for z in roots])
-        '''
+        
 if __name__ == "__main__":
     main()
 
